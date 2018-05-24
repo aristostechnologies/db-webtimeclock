@@ -1,0 +1,11 @@
+{
+    "name": "aristostechnologies.webtimeclock-dash",
+    "title": "In-Editor Time Clock: The SQL",
+    "description": "Track your time developing for pricing calculations right in your text editor. No more checking the clock. With this version you can upload your time to a database.",
+    "homepage": "https://github.com/aristostechnologies/db-webtimeclock",
+    "version": "3.0.0",
+    "author": "Aristos Technologies LLC <isaac@aristostechnologies.com>",
+    "engines": {
+        "brackets": ">=0.24.0"
+    }
+}

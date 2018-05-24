@@ -1,0 +1,113 @@
+.bottom-panel {
+    background: rgb(50,50,50);
+}
+.bottom-panel .helloworld-panel {
+    position: fixed;
+    top: 0;
+    bottom: 15px;
+    color: white;
+    width: 400px;
+}
+
+.button {
+    position: relative;
+    left: 0px;
+    top: 10px;
+    margin-left: 10px;
+    padding: 5px 6px;
+
+    background: rgb(41,171,226);
+    border: 1px solid rgba(41,171,226,0.5);
+    border-radius: 3px;
+    box-shadow:
+        0 1px 3px rgb(34,34,34),
+        0 0 5px rgba(0,0,0,0.65),
+        0 0 3px rgb(34,34,34) inset;
+
+    color: rgb(255,255,255);
+    text-shadow:
+        1px 1px 1px rgb(17,17,17),
+        0 0 3px rgb(34,34,34);
+}
+
+button:hover {
+    background: rgb(39,83,121);
+    border: 1px solid rgba(39,83,121,0.5);
+    color: rgba(255,255,255,0.85);
+
+    /* slight downward motion for more realistic pressed-state: */
+    -webkit-transform: translateY(2px);
+    transform: translateY(2px);
+}
+
+button:focus {
+    outline: none;
+}
+
+#button-start {}
+#button-stop {}
+
+#button-reset {
+    background: rgb(227,76,38);
+    border: 1px solid rgba(151,46,19,0.5);
+}
+
+#button-reset:hover {
+    background: rgb(151,46,19);
+}
+
+.display {
+    position: relative;
+    top: 10px;
+    width: 100px;
+    height: 20px;
+    margin-left: 10px;
+    padding: 5px 0;
+
+    background: rgb(35,35,35);
+    border: 1px solid rgba(0,0,0,0.9);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    border-radius: 5px;
+    box-shadow:
+        0 2px 1px 1px rgb(52,50,50),
+        0 0 5px rgba(0,0,0,0.65),
+        0 0 8px rgba(0,0,0,0.65) inset;
+
+    color: rgb(216,132,39);
+    font-family: monospace;
+    text-align: center;
+}
+
+#timer div { display: inline-block; }
+#timer form { display: inline-block; }
+
+#hours {
+    color: white;
+    text-shadow: 0 0 3px rgba(255,255,255,0.3)
+    }
+
+#minutes {
+    color: white;
+    text-shadow: 0 0 3px rgba(255,255,255,0.3)
+    }
+
+#seconds {
+    color: rgb(128,128,128);
+    text-shadow: 0 0 3px rgba(255,255,255,0.1);
+    }
+.arrow-up {
+  margin: 0 auto;
+  width: 0; 
+  height: 0; 
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  
+  border-bottom: 5px solid #f9f9f9;
+}
+.time-panel {
+    margin-top:50px;
+    height: 400px;
+    width: 400px;
+    background-color: white;
+    
+}
