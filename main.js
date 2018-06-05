@@ -50,12 +50,12 @@ function handleTimer() {
   var formMinutes = "00";
   var formHours = "00";
 
-//The times to be displayed
+  //The times to be displayed
   var appendMinutes = document.getElementById("minutes");
   var appendHours = document.getElementById("hours");
   var appendSeconds = document.getElementById("seconds");
     
-//Buttons  
+  //Buttons  
   var buttonStart = document.getElementById('button-start');
   var buttonStop = document.getElementById('button-stop');
   var buttonSave = document.getElementById('button-save');
@@ -87,13 +87,16 @@ buttonReset.onclick = function() {
   	appendSeconds.innerHTML = seconds;
     appendMinutes.innerHTML = minutes;
     appendHours.innerHTML = hours;
+    formSeconds = "00";
+    formMinutes = "00";
+    formHours = "00";
   }
   
   function startTimer () {
     tens++;  
     
     if (tens > 99) {
-      console.log("seconds");
+      //console.log("seconds");
       seconds++;
       appendSeconds.innerHTML = "0" + seconds;
       formSeconds = "0" + seconds;
@@ -106,19 +109,20 @@ buttonReset.onclick = function() {
     }
     
     if (seconds > 59) {
- console.log("minutes");
+      //console.log("minutes");
       minutes++;
       appendMinutes.innerHTML = "0" + minutes;
       formMinutes = "0" + minutes;
       seconds = 0;
       appendSeconds.innerHTML = "0" + 0;
       formSeconds = "00";
-        }
+      }
       if (minutes > 9) {
         appendMinutes.innerHTML = minutes;
+          formMinutes = minutes;
       }
       if (minutes > 59) {
- console.log("hours");
+      //console.log("hours");
       hours++;
       appendHours.innerHTML = "0" + hours;
           formHours = "0" + hours;
@@ -135,8 +139,8 @@ buttonReset.onclick = function() {
  
 
 }
-/* This function is the beginning of what I have for displaying work session entries on a bottom panel
-function viewTimeEntries() {
+/* This function is the beginning of what I have for displaying work session entries on a bottom panel */
+/*function viewTimeEntries() {
     
        if(timepanel.isVisible()) {
             timepanel.hide();
@@ -147,7 +151,8 @@ function viewTimeEntries() {
         
             viewTime.exec("viewTime")
                 .done(function (results) {
-                    console.log(results);
+                    console.log(result);
+                    
                     for(var x = 0; x < results.length; x++) {
                         document.getElementById("tbody").innerHTML = "<tr><td>" + results[x].id + "</td><td>";
                     }
@@ -157,8 +162,7 @@ function viewTimeEntries() {
         }
     
         
-}
-*/
+}*/
     AppInit.appReady(function () {
 
         log("The time clock.");
