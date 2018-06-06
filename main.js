@@ -134,6 +134,10 @@ buttonReset.onclick = function() {
           appendHours.innerHTML = "0" + 0;
           formHours = "00";
       }
+      if(hours > 9) {
+          appendHours.innerHTML = hours;
+          formHours = hours;
+      }
   }
     
  
