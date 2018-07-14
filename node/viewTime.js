@@ -21,12 +21,7 @@ var bodyParser = require('body-parser');
 * @private
 *
 */
-
-
-
-    
-
-    // all environments
+ // all environments
     app.set('port', process.env.PORT || 4300);
     app.set('views', path.join(__dirname, 'views'));
     app.set('view engine', 'ejs');
@@ -65,37 +60,6 @@ function viewTime() {
     http.createServer(app).listen(app.get('port'), function(){
         console.log('Express server listening on port ' + app.get('port'));
     });
-    
-    
-/* Probably won't need this
-    let con = mysql.createConnection({
-        host: "localhost",
-        user: "root",
-        password: "root",
-        database: "brackets_timer_data"
-    });
-    
-    return new Promise((resolve, reject) => {
-    con.connect(function (err) {
-      if (err) {
-        console.log('err while establishing connection ', err);
-        reject(err);
-      }
-      console.log('Connected!');
-      resolve();
-    });
-  }).then(() => {
-    return new Promise((resolve, reject) => {
-         con.query("SELECT * FROM work_sessions", function (err, result, fields) {
-          if (err) {
-            console.log('err in while fetching session details ', err);
-            reject(err);
-          }
-          //console.log(result);
-          return resolve(result);
-        });
-    });
-  });*/
 }
 
     
