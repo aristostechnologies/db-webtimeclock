@@ -8,6 +8,8 @@ DEPENDENCIES
 
 - Node.js
 - npm mysql
+- npm express
+- npm http
 
 INSTALLATION
 ------------
