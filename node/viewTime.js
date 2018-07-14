@@ -3,7 +3,6 @@
 "use strict";
 var express = require('express');
 var http = require('http');
-var path = require('path');
 var cors = require('cors');
 
 //Including controller/dao for testtable
@@ -32,7 +31,7 @@ var errorHandler = require('errorhandler');
             password : 'root',
             port : 3306, //port mysql
             database:'brackets_timer_data'
-    },'pool')
+        },'pool')
     );
 function viewTime() {
     app.get('/workSessions', function(req, res){
