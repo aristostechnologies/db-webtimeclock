@@ -2,7 +2,6 @@
 (function () {
 "use strict";
 var express = require('express');
-var routes = require('routes');
 var http = require('http');
 var path = require('path');
 var cors = require('cors');
@@ -11,11 +10,8 @@ var cors = require('cors');
 var app = express();
 var connection  = require('express-myconnection'); 
 var mysql = require('mysql');
-var methodOverride = require('method-override');
-var morgan = require('morgan');
-var serveStatic = require('serve-static');
 var errorHandler = require('errorhandler');
-var bodyParser = require('body-parser');
+
 
 /**
 * @private
@@ -23,13 +19,6 @@ var bodyParser = require('body-parser');
 */
  // all environments
     app.set('port', process.env.PORT || 4300);
-    app.set('views', path.join(__dirname, 'views'));
-    app.set('view engine', 'ejs');
-    app.use(morgan('dev'));
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({extended:true}));
-    app.use(methodOverride());
-    app.use(serveStatic(path.join(__dirname, 'public')));
     app.use(cors());
     // development only
     if ('development' == app.get('env')) {
