@@ -84,7 +84,7 @@ button:focus {
 #hours {
     color: white;
     text-shadow: 0 0 3px rgba(255,255,255,0.3)
-    }
+}
 
 #minutes {
     color: white;
@@ -95,19 +95,25 @@ button:focus {
     color: rgb(128,128,128);
     text-shadow: 0 0 3px rgba(255,255,255,0.1);
     }
-.arrow-up {
-  margin: 0 auto;
-  width: 0; 
-  height: 0; 
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  
-  border-bottom: 5px solid #f9f9f9;
-}
 .time-panel {
     margin-top:50px;
     height: 400px;
     width: 400px;
     background-color: white;
     
+}
+.bottom-panel table {
+    background-color: white; 
+    color: black;
+    height: 500px; 
+    width: 90%; 
+    font-size: 18px; 
+    margin-left: 75px; 
+    margin-top:15px; 
+    border-radius: 5px;
+    padding:8px;
+    border-collapse: none !important;
+}
+.bottom-panel table td {
+    border-bottom: 1px solid #c3c3c3 !important;
 }

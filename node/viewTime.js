@@ -1,21 +1,81 @@
 //Not functional. If you can solve it, please do!
 (function () {
 "use strict";
-let mysql = require('mysql');
+var express = require('express');
+var routes = require('routes');
+var http = require('http');
+var path = require('path');
+var cors = require('cors');
+
+//Including controller/dao for testtable
+var app = express();
+var connection  = require('express-myconnection'); 
+var mysql = require('mysql');
+var methodOverride = require('method-override');
+var morgan = require('morgan');
+var serveStatic = require('serve-static');
+var errorHandler = require('errorhandler');
+var bodyParser = require('body-parser');
+
 /**
 * @private
 *
-* @return {object}
 */
-function viewTime() {
-  let con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "root",
-    database: "brackets_timer_data"
-  });
 
-  return new Promise((resolve, reject) => {
+
+
+    
+
+    // all environments
+    app.set('port', process.env.PORT || 4300);
+    app.set('views', path.join(__dirname, 'views'));
+    app.set('view engine', 'ejs');
+    app.use(morgan('dev'));
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({extended:true}));
+    app.use(methodOverride());
+    app.use(serveStatic(path.join(__dirname, 'public')));
+    app.use(cors());
+    // development only
+    if ('development' == app.get('env')) {
+      app.use(errorHandler());
+    }
+
+    app.use(
+        connection(mysql,{
+            host: 'localhost',
+            user: 'root',
+            password : 'root',
+            port : 3306, //port mysql
+            database:'brackets_timer_data'
+    },'pool')
+    );
+function viewTime() {
+    app.get('/workSessions', function(req, res){
+        req.getConnection(function(err,connection){   
+          var query = connection.query('SELECT * FROM work_sessions ORDER BY id DESC LIMIT 35',function(err,rows){
+            if(err)
+              console.log("Error Selecting : %s ",err );
+
+            res.send(JSON.stringify(rows));
+          });
+      });
+    });
+    //app.use(app.router);
+    http.createServer(app).listen(app.get('port'), function(){
+        console.log('Express server listening on port ' + app.get('port'));
+    });
+    
+    
+/* Probably won't need this
+    let con = mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        password: "root",
+        database: "brackets_timer_data"
+    });
+    
+    return new Promise((resolve, reject) => {
     con.connect(function (err) {
       if (err) {
         console.log('err while establishing connection ', err);
@@ -25,42 +85,37 @@ function viewTime() {
       resolve();
     });
   }).then(() => {
-    con.query("SELECT * FROM work_sessions", function (err, result, fields) {
-      if (err) {
-        console.log('err in while fetching session details ', err);
-        return Promise.reject(err);
-      }
-      console.log(result);
-      return Promise.resolve(result);
+    return new Promise((resolve, reject) => {
+         con.query("SELECT * FROM work_sessions", function (err, result, fields) {
+          if (err) {
+            console.log('err in while fetching session details ', err);
+            reject(err);
+          }
+          //console.log(result);
+          return resolve(result);
+        });
     });
-  });
+  });*/
 }
+
+    
  /**
  * Initializes the test domain with several test commands.
  * @param {DomainManager} domainManager The DomainManager for the server
 */
 
 function init(domainManager) {
+    if (!domainManager.hasDomain("view")) {
+            domainManager.registerDomain("view", {major: 0, minor: 1});
+    }
 
   // your other code
-
-  viewTime().then(sessions => {
     domainManager.registerCommand(
       "view",       // domain name
       "viewTime",    // command name
-      sessions,   // command handler function
-      false,          // this command is synchronous in Node
-      "Returns time entry results.",
-      [{}],
-      [{
-        name: "results", // return values
-        type: "object",
-        description: "Time entry results"
-      }]
+      viewTime,   // command handler function
+      false          // this command is asynchronous in Node
     );
-  }).catch(err => {
-    console.log('err in init()', err);
-  });
 
 }
 exports.init = init;

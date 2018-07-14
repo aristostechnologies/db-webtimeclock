@@ -11,11 +11,11 @@ define(function(require, exports, module) {
     NodeDomain = brackets.getModule("utils/NodeDomain");
 
     var TIMERDASH_EXECUTE = "timerdash.execute";
-    //var VIEWTIME_EXECUTE = "viewtimeentries.execute";
+    var VIEWTIME_EXECUTE = "viewtimeentries.execute";
     var panel;
-    //var timepanel;
+    var timepanel;
     var panelHTML = require("text!timer.html");
-    //var viewPanel = require("text!viewtime.html");
+    var viewPanel = require("text!viewtime.html");
 
     function log(s) {
             console.log("[webdash-timer-db] "+s);
@@ -24,7 +24,7 @@ define(function(require, exports, module) {
     var saveTime = new NodeDomain("simple", ExtensionUtils.getModulePath(module, "node/database"));
     
     //NodeJS for viewing time. Not yet functional
-    //var viewTime = new NodeDomain("view", ExtensionUtils.getModulePath(module, "node/viewTime"));
+    var viewTime = new NodeDomain("view", ExtensionUtils.getModulePath(module, "node/viewTime"));
 //Start of the clock
     var Interval ;
     
@@ -63,7 +63,6 @@ function handleTimer() {
   
 
 buttonStart.onclick = function() {
-    
      clearInterval(Interval);
      Interval = setInterval(startTimer, 10);
   }
@@ -115,7 +114,7 @@ buttonReset.onclick = function() {
       formMinutes = "0" + minutes;
       seconds = 0;
       appendSeconds.innerHTML = "0" + 0;
-      formSeconds = "00";
+      formSeconds = "0" + 0;
       }
       if (minutes > 9) {
         appendMinutes.innerHTML = minutes;
@@ -128,11 +127,11 @@ buttonReset.onclick = function() {
           formHours = "0" + hours;
       minutes = 0;
       appendMinutes.innerHTML = "0" + 0;
-          formMinutes = "00";
+          formMinutes = "0" + 0;
     }
       if (hours < 1) {
           appendHours.innerHTML = "0" + 0;
-          formHours = "00";
+          formHours = "0" + 0;
       }
       if(hours > 9) {
           appendHours.innerHTML = hours;
@@ -143,8 +142,12 @@ buttonReset.onclick = function() {
  
 
 }
-/* This function is the beginning of what I have for displaying work session entries on a bottom panel */
-/*function viewTimeEntries() {
+
+//Serve SQL on NodeJS Server
+viewTime.exec("viewTime");
+
+//Display Time Entries in a table
+function viewTimeEntries() {
     
        if(timepanel.isVisible()) {
             timepanel.hide();
@@ -152,35 +155,31 @@ buttonReset.onclick = function() {
         } else {
             timepanel.show();
             CommandManager.get(VIEWTIME_EXECUTE).setChecked(true);
-        
-            viewTime.exec("viewTime")
-                .done(function (results) {
-                    console.log(result);
-                    
-                    for(var x = 0; x < results.length; x++) {
-                        document.getElementById("tbody").innerHTML = "<tr><td>" + results[x].id + "</td><td>";
-                    }
-                }).fail(function (err) {
-                    console.error("[brackets-simple-node] failed to run simple.viewTime", err);
+            fetch("http://localhost:4300/workSessions")
+                .then(res => res.json())
+                .then(res => {
+                    //console.log(res);
+                    document.getElementById('test').innerHTML = "<tr><td>Entry ID</td><td>Time Entry</td><td>Time Stamp</td></tr>";
+                    res.map(item => {
+                        document.getElementById('test').innerHTML += "<tr style='border-bottom:1px solid #c3c3c3;'><td>" + item.id + "</td><td>" + item.time_entry +"</td><td>" + item.timestamp + "</td></tr>";
+                    });
                 });
         }
-    
-        
-}*/
+}
     AppInit.appReady(function () {
 
         log("The time clock.");
         ExtensionUtils.loadStyleSheet(module, "timer.css");
         CommandManager.register("Toggle Timer", TIMERDASH_EXECUTE, handleTimer);
-        //CommandManager.register("View Time Entries", VIEWTIME_EXECUTE, viewTimeEntries);
+        CommandManager.register("View Time Entries", VIEWTIME_EXECUTE, viewTimeEntries);
 
         var menu = Menus.addMenu("Time Clock", "isaacdew.timeclock-db.timeclock");
         menu.addMenuItem(TIMERDASH_EXECUTE);
-        //menu.addMenuItem(VIEWTIME_EXECUTE);
+        menu.addMenuItem(VIEWTIME_EXECUTE);
 
         panel = PanelManager.createBottomPanel(TIMERDASH_EXECUTE, $(panelHTML),50);
         
-        //timepanel = PanelManager.createBottomPanel(VIEWTIME_EXECUTE, $(viewPanel),800);
+        timepanel = PanelManager.createBottomPanel(VIEWTIME_EXECUTE, $(viewPanel),800);
 
     });
 });
